@@ -1,10 +1,10 @@
 import "./App.css";
+import Header from "./Components/Header/index";
 
 function App() {
   return (
     <>
-      <h1>Alura Flix</h1>
-      <p>probando</p>
+      <Header />
     </>
   );
 }
