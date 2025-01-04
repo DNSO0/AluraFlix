@@ -20,8 +20,9 @@ const CardContainer = styled.div`
 const VideoImage = styled.div`
   width: 100%;
   height: 170px;
-  background: ${({ $image }) =>
-    $image ? `url(${$image})` : 'none'} no-repeat center center;
+  background-image: ${({ $image }) => `url(${$image})`};
+  background-repeat: no-repeat;
+  background-position: center center;
   background-size: cover;
 `;
 

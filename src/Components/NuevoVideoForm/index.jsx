@@ -53,7 +53,7 @@ const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  grid-column: ${({ fullWidth }) => (fullWidth ? '1 / -1' : 'auto')};
+  grid-column: ${({ $fullWidth }) => ($fullWidth ? '1 / -1' : 'auto')};
 `;
 
 // Input básico
@@ -125,15 +125,15 @@ const Button = styled.button`
   font-size: 16px;
   font-weight: bold;
   text-transform: uppercase;
-  color: ${({ primary }) => (primary ? '#fff' : '#0066ff')};
-  background-color: ${({ primary }) => (primary ? '#0066ff' : 'transparent')};
-  border: ${({ primary }) => (primary ? 'none' : '2px solid #0066ff')};
+  color: ${({ $primary }) => ($primary ? '#fff' : '#0066ff')};
+  background-color: ${({ $primary }) => ($primary ? '#0066ff' : 'transparent')};
+  border: ${({ $primary }) => ($primary ? 'none' : '2px solid #0066ff')};
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: ${({ primary }) => (primary ? '#0050cc' : '#003f99')};
+    background-color: ${({ $primary }) => ($primary ? '#0050cc' : '#003f99')};
     color: #fff;
   }
 `;
@@ -211,7 +211,7 @@ function NuevoVideoForm() {
             placeholder="Ingrese el título"
             value={formData.titulo}
             onChange={handleChange}
-            error={!!errors.titulo}
+            $error={!!errors.titulo}
           />
           {errors.titulo && <ErrorMessage>{errors.titulo}</ErrorMessage>}
         </FieldContainer>
@@ -220,7 +220,7 @@ function NuevoVideoForm() {
             name="categoria"
             value={formData.categoria}
             onChange={handleChange}
-            error={!!errors.categoria}
+            $error={!!errors.categoria}
           >
             <option value="">Seleccione una categoría</option>
             <option value="frontend">Front End</option>
@@ -236,7 +236,7 @@ function NuevoVideoForm() {
             placeholder="Ingrese el enlace de la imagen"
             value={formData.imagen}
             onChange={handleChange}
-            error={!!errors.imagen}
+            $error={!!errors.imagen}
           />
           {errors.imagen && <ErrorMessage>{errors.imagen}</ErrorMessage>}
         </FieldContainer>
@@ -247,11 +247,11 @@ function NuevoVideoForm() {
             placeholder="Ingrese el enlace del video"
             value={formData.video}
             onChange={handleChange}
-            error={!!errors.video}
+            $error={!!errors.video}
           />
           {errors.video && <ErrorMessage>{errors.video}</ErrorMessage>}
         </FieldContainer>
-        <FieldContainer fullWidth>
+        <FieldContainer $fullWidth>
           <Textarea
             name="descripcion"
             rows="4"
@@ -261,7 +261,7 @@ function NuevoVideoForm() {
           />
         </FieldContainer>
         <ButtonContainer>
-          <Button primary type="submit" disabled={loading}>
+          <Button $primary type="submit" disabled={loading}>
             {loading ? "Guardando..." : "Guardar"}
           </Button>
           <Button
