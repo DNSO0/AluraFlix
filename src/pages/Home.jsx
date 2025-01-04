@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Banner from '../Components/Banner';
 import CategorySection from '../Components/CategorySection';
-import VideoCard from '../Components/VideoCard'; // Importa el componente de la card
+import VideoCard from '../Components/VideoCard';
+import EditModal from '../Components/EditModal';
 
 const MainContent = styled.main`
   padding: 20px;
@@ -27,12 +28,21 @@ const CardContainer = styled.div`
 `;
 
 function Home() {
-  const handleDelete = () => {
-    alert('Video borrado');
+  const [isModalOpen, setModalOpen] = useState(false); // Controla si el modal está abierto
+  const [editData, setEditData] = useState({}); // Datos actuales de la card a editar
+
+  const handleEdit = (video) => {
+    setEditData(video); // Establece los datos actuales de la card
+    setModalOpen(true); // Abre el modal
   };
 
-  const handleEdit = () => {
-    alert('Editando video');
+  const handleSubmit = (data) => {
+    console.log('Datos actualizados:', data);
+    setModalOpen(false); // Cierra el modal después de guardar
+  };
+
+  const handleDelete = () => {
+    alert('Video borrado');
   };
 
   return (
@@ -41,18 +51,31 @@ function Home() {
       {categories.map((category, index) => (
         <div key={index}>
           <CategorySection title={category.title} color={category.color} />
-          {/* Añadir una card temporal debajo de cada categoría */}
           <CardContainer>
             <VideoCard
               title="Ejemplo de Video"
               image="https://via.placeholder.com/300x170"
               categoryColor={category.color}
               onDelete={handleDelete}
-              onEdit={handleEdit}
+              onEdit={() =>
+                handleEdit({
+                  title: 'Ejemplo de Video',
+                  category: category.title.toLowerCase(),
+                  image: 'https://via.placeholder.com/300x170',
+                  video: 'https://www.youtube.com',
+                  description: 'Descripción del video',
+                })
+              }
             />
           </CardContainer>
         </div>
       ))}
+      <EditModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)} // Cierra el modal
+        onSubmit={handleSubmit} // Maneja el guardado
+        initialValues={editData} // Datos prellenados del modal
+      />
     </MainContent>
   );
 }
