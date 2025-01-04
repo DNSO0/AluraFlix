@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Logo from './logo.svg';
-import { usePage } from '../../Context/PageContext'; // Importar el hook personalizado
 
-// Estilos (igual que antes)
 const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
@@ -24,7 +23,7 @@ const NavContainer = styled.nav`
   gap: 20px;
 `;
 
-const NavButton = styled.button`
+const NavButton = styled(Link)`
   padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
@@ -33,34 +32,23 @@ const NavButton = styled.button`
   background-color: ${({ active }) => (active ? '#0066ff' : 'transparent')};
   border: ${({ active }) => (active ? 'none' : '2px solid #0066ff')};
   border-radius: 8px;
+  text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: ${({ active }) => (active ? '#0050cc' : '#003f99')};
+    background-color: #0050cc;
     color: #fff;
   }
 `;
 
 function Header() {
-  const { currentPage, setCurrentPage } = usePage(); // Usar contexto para obtener y cambiar la página
-
   return (
     <HeaderContainer>
       <LogoImage src={Logo} alt="AluraFlix Logo" />
       <NavContainer>
-        <NavButton
-          active={currentPage === 'HOME'}
-          onClick={() => setCurrentPage('HOME')}
-        >
-          Home
-        </NavButton>
-        <NavButton
-          active={currentPage === 'NUEVO VIDEO'}
-          onClick={() => setCurrentPage('NUEVO VIDEO')}
-        >
-          Nuevo Video
-        </NavButton>
+        <NavButton to="/">Home</NavButton>
+        <NavButton to="/nuevo-video">Nuevo Video</NavButton>
       </NavContainer>
     </HeaderContainer>
   );
