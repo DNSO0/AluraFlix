@@ -1,70 +1,67 @@
 import React from 'react';
 import styled from 'styled-components';
 import Logo from './logo.svg';
+import { usePage } from '../../Context/PageContext'; // Importar el hook personalizado
 
-// Contenedor principal del header (ocupa todo el ancho)
+// Estilos (igual que antes)
 const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #000; /* Color de fondo negro */
-  padding: 10px 20px;
-  width: 100%; /* Asegura que ocupa todo el ancho */
-  position: fixed; /* Fija el header en la parte superior */
-  top: 0;
-  left: 0;
-  z-index: 1000; /* Asegura que esté encima del contenido */
+  background-color: #000;
+  padding: 10px 40px;
+  width: 100%;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid #0066ff;
 `;
 
-// Logo (sin fondo blanco visible)
 const LogoImage = styled.img`
   height: 40px;
-  background-color: transparent; /* Asegura que no tenga fondo */
 `;
 
-// Contenedor de los botones
-const NavButtons = styled.div`
+const NavContainer = styled.nav`
   display: flex;
-  gap: 10px;
+  gap: 20px;
 `;
 
-// Estilo para los botones
-const Button = styled.button`
-  padding: 8px 16px;
+const NavButton = styled.button`
+  padding: 10px 20px;
   font-size: 16px;
-  background-color: black; /* Fondo negro para ambos botones */
-  border: 2px solid; /* Borde común para ambos botones */
-  border-radius: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: ${({ active }) => (active ? '#fff' : '#0066ff')};
+  background-color: ${({ active }) => (active ? '#0066ff' : 'transparent')};
+  border: ${({ active }) => (active ? 'none' : '2px solid #0066ff')};
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
 
-  /* Estilo específico para el botón "Home" */
-  &:first-child {
-    color: white; /* Letra blanca */
-    border-color: white; /* Borde blanco */
-  }
-
-  /* Estilo específico para el botón "Nuevo Video" */
-  &:last-child {
-    color: #257be5; /* Letra azul */
-    border-color: #257be5; /* Borde azul */
-  }
-
-  /* Efecto hover para ambos botones */
   &:hover {
-    background-color: ${({ primary }) => (primary ? '#004FCC' : '#333')}; /* Fondo más oscuro al pasar el mouse */
+    background-color: ${({ active }) => (active ? '#0050cc' : '#003f99')};
+    color: #fff;
   }
 `;
 
 function Header() {
+  const { currentPage, setCurrentPage } = usePage(); // Usar contexto para obtener y cambiar la página
+
   return (
     <HeaderContainer>
       <LogoImage src={Logo} alt="AluraFlix Logo" />
-      <NavButtons>
-        <Button>Home</Button>
-        <Button>Nuevo Video</Button>
-      </NavButtons>
+      <NavContainer>
+        <NavButton
+          active={currentPage === 'HOME'}
+          onClick={() => setCurrentPage('HOME')}
+        >
+          Home
+        </NavButton>
+        <NavButton
+          active={currentPage === 'NUEVO VIDEO'}
+          onClick={() => setCurrentPage('NUEVO VIDEO')}
+        >
+          Nuevo Video
+        </NavButton>
+      </NavContainer>
     </HeaderContainer>
   );
 }
