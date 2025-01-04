@@ -1,25 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Banner from '../Components/Banner';
 import CategorySection from '../Components/CategorySection';
 import VideoCard from '../Components/VideoCard';
 import EditModal from '../Components/EditModal';
+import api from '../services/api';
 
 const MainContent = styled.main`
   padding: 20px;
   background-color: #121212;
-  padding-top: 70px; /* Espacio para el header fijo */
-  min-height: calc(100vh - 70px); /* Altura mínima para empujar el footer hacia el final */
+  padding-top: 70px; 
+  min-height: calc(100vh - 70px); 
 `;
 
-// Datos de las categorías
-const categories = [
-  { title: 'Frontend', color: '#0066ff' },
-  { title: 'Backend', color: '#33cc33' },
-  { title: 'Innovación y Gestión', color: '#ff9900' },
-];
-
-// Contenedor para las cards de prueba
 const CardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -28,17 +21,54 @@ const CardContainer = styled.div`
 `;
 
 function Home() {
-  const [isModalOpen, setModalOpen] = useState(false); // Controla si el modal está abierto
-  const [editData, setEditData] = useState({}); // Datos actuales de la card a editar
+  const [videosByCategory, setVideosByCategory] = useState([]); // Datos organizados por categoría
+  const [isModalOpen, setModalOpen] = useState(false); 
+  const [editData, setEditData] = useState({}); 
+
+  // Realizar la solicitud GET para obtener los videos
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const response = await api.get('/videos'); // Solicitud GET a la API
+        const videos = response.data;
+        console.log('Videos obtenidos:', response.data);
+
+        // Organizar los videos por categoría
+        const categorizedVideos = [
+          {
+            title: 'Frontend',
+            color: '#0066ff',
+            videos: videos.filter((video) => video.category === 'frontend'),
+          },
+          {
+            title: 'Backend',
+            color: '#33cc33',
+            videos: videos.filter((video) => video.category === 'backend'),
+          },
+          {
+            title: 'Innovación y Gestión',
+            color: '#ff9900',
+            videos: videos.filter((video) => video.category === 'innovation'),
+          },
+        ];
+
+        setVideosByCategory(categorizedVideos); // Actualizar el estado con los videos organizados
+      } catch (error) {
+        console.error('Error al obtener los videos:', error);
+      }
+    };
+
+    fetchVideos();
+  }, []);
 
   const handleEdit = (video) => {
-    setEditData(video); // Establece los datos actuales de la card
-    setModalOpen(true); // Abre el modal
+    setEditData(video); 
+    setModalOpen(true); 
   };
 
   const handleSubmit = (data) => {
     console.log('Datos actualizados:', data);
-    setModalOpen(false); // Cierra el modal después de guardar
+    setModalOpen(false);
   };
 
   const handleDelete = () => {
@@ -48,33 +78,28 @@ function Home() {
   return (
     <MainContent>
       <Banner />
-      {categories.map((category, index) => (
+      {videosByCategory.map((category, index) => (
         <div key={index}>
           <CategorySection title={category.title} color={category.color} />
           <CardContainer>
-            <VideoCard
-              title="Ejemplo de Video"
-              image="https://via.placeholder.com/300x170"
-              categoryColor={category.color}
-              onDelete={handleDelete}
-              onEdit={() =>
-                handleEdit({
-                  title: 'Ejemplo de Video',
-                  category: category.title.toLowerCase(),
-                  image: 'https://via.placeholder.com/300x170',
-                  video: 'https://www.youtube.com',
-                  description: 'Descripción del video',
-                })
-              }
-            />
+            {category.videos.map((video, videoIndex) => (
+              <VideoCard
+                key={videoIndex}
+                title={video.title}
+                image={video.image}
+                categoryColor={category.color}
+                onDelete={() => handleDelete(video)}
+                onEdit={() => handleEdit(video)}
+              />
+            ))}
           </CardContainer>
         </div>
       ))}
       <EditModal
         isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)} // Cierra el modal
-        onSubmit={handleSubmit} // Maneja el guardado
-        initialValues={editData} // Datos prellenados del modal
+        onClose={() => setModalOpen(false)} 
+        onSubmit={handleSubmit} 
+        initialValues={editData} 
       />
     </MainContent>
   );

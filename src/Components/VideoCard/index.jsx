@@ -7,9 +7,9 @@ import deleteIcon from '../../assets/icons/delete-icon.svg'; // Icono de borrar
 const CardContainer = styled.div`
   width: 300px;
   background-color: #000;
-  border: 3px solid ${({ borderColor }) => borderColor || '#fff'};
+  border: 3px solid ${({ $borderColor }) => $borderColor || '#fff'};
   border-radius: 8px;
-  box-shadow: 0 0 10px ${({ borderColor }) => borderColor || '#fff'};
+  box-shadow: 0 0 10px ${({ $borderColor }) => $borderColor || '#fff'};
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -59,7 +59,7 @@ const IconButton = styled.button`
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: ${({ hoverColor }) => hoverColor || '#444'};
+    background-color: ${({ $hoverColor }) => $hoverColor || '#444'};
   }
 
   img {
@@ -70,15 +70,15 @@ const IconButton = styled.button`
 
 function VideoCard({ title, image, categoryColor, onDelete, onEdit }) {
   return (
-    <CardContainer borderColor={categoryColor}>
-      <VideoImage image={image} />
+    <CardContainer $borderColor={categoryColor}>
+      <VideoImage $image={image} />
       <VideoTitle>{title}</VideoTitle>
       <ButtonContainer>
-        <IconButton hoverColor="#ff0000" onClick={onDelete}>
+        <IconButton $hoverColor="#ff0000" onClick={onDelete}>
           <img src={deleteIcon} alt="Delete Icon" />
           Borrar
         </IconButton>
-        <IconButton hoverColor="#0066ff" onClick={onEdit}>
+        <IconButton $hoverColor="#0066ff" onClick={onEdit}>
           <img src={editIcon} alt="Edit Icon" />
           Editar
         </IconButton>

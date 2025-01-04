@@ -1,0 +1,29 @@
+{
+    "videos": [
+      {
+        "id": 1,
+        "title": "React Basics",
+        "category": "frontend",
+        "image": "https://via.placeholder.com/300x170",
+        "video": "https://www.youtube.com/watch?v=react",
+        "description": "Aprende los conceptos básicos de React y cómo construir componentes."
+      },
+      {
+        "id": 2,
+        "title": "Node.js Crash Course",
+        "category": "backend",
+        "image": "https://via.placeholder.com/300x170",
+        "video": "https://www.youtube.com/watch?v=nodejs",
+        "description": "Un curso rápido para aprender Node.js y construir APIs RESTful."
+      },
+      {
+        "id": 3,
+        "title": "Agile Methodologies",
+        "category": "innovation",
+        "image": "https://via.placeholder.com/300x170",
+        "video": "https://www.youtube.com/watch?v=agile",
+        "description": "Descubre las metodologías ágiles y cómo aplicarlas en tus proyectos."
+      }
+    ]
+  }
+  

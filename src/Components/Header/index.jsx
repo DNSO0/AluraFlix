@@ -61,7 +61,7 @@ function Header() {
     <HeaderContainer>
       <LogoImage src={Logo} alt="AluraFlix Logo" />
       <NavContainer>
-        <NavButton to="/" exact>
+        <NavButton to="/" >
           Home
         </NavButton>
         <NavButton to="/nuevo-video">
