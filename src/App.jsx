@@ -1,17 +1,16 @@
 import React from 'react';
 import Header from './Components/Header';
-import { usePage } from './Context/PageContext';
+import NuevoVideo from './Components/NuevoVideo';
+//import Footer from './Components/Footer'; // Suponiendo que el Footer ya está creado
 
 function App() {
-  const { currentPage } = usePage(); // Accede al contexto
-
   return (
     <div>
       <Header />
-      <main style={{ padding: '20px' }}>
-        {currentPage === 'HOME' && <h1>Bienvenido a la página Home</h1>}
-        {currentPage === 'NUEVO VIDEO' && <h1>Formulario para Nuevo Video</h1>}
+      <main style={{ padding: '20px', backgroundColor: '#121212', minHeight: 'calc(100vh - 150px)' }}>
+        <NuevoVideo />
       </main>
+      
     </div>
   );
 }
