@@ -1,29 +1,28 @@
 {
-    "videos": [
-      {
-        "id": 1,
-        "title": "React Basics",
-        "category": "frontend",
-        "image": "https://via.placeholder.com/300x170",
-        "video": "https://www.youtube.com/watch?v=react",
-        "description": "Aprende los conceptos básicos de React y cómo construir componentes."
-      },
-      {
-        "id": 2,
-        "title": "Node.js Crash Course",
-        "category": "backend",
-        "image": "https://via.placeholder.com/300x170",
-        "video": "https://www.youtube.com/watch?v=nodejs",
-        "description": "Un curso rápido para aprender Node.js y construir APIs RESTful."
-      },
-      {
-        "id": 3,
-        "title": "Agile Methodologies",
-        "category": "innovation",
-        "image": "https://via.placeholder.com/300x170",
-        "video": "https://www.youtube.com/watch?v=agile",
-        "description": "Descubre las metodologías ágiles y cómo aplicarlas en tus proyectos."
-      }
-    ]
-  }
-  
+  "videos": [
+    {
+      "id": "1",
+      "title": "FrontEnd???",
+      "category": "frontend",
+      "image": "https://i.ytimg.com/vi/QjOWz9avkg8/hq720.jpg",
+      "video": "https://www.youtube.com/results?search_query=alura+latam+frontend",
+      "description": "FrontEnd vs Backend"
+    },
+    {
+      "id": "2",
+      "title": "¿Qué es SQL y NoSQL?",
+      "category": "backend",
+      "image": "https://i.ytimg.com/vi/cLLKVd5CNLc/hq720.jpg",
+      "video": "https://www.youtube.com/watch?v=cLLKVd5CNLc",
+      "description": "¿Cuáles son las diferencias entre una estructura de datos relacional (SQL) y una no relacional (NoSQL) y cuáles son las principales ventajas de cada una? Álvaro Camacho lo explica en este vídeo."
+    },
+    {
+      "id": "3",
+      "title": "¿Qué son las Soft Skills?",
+      "category": "innovation",
+      "image": "https://i.ytimg.com/vi/vhwspfvI52k/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDxc_0rcRKCUTqYZXq2YUcjczMJNg",
+      "video": "https://www.youtube.com/watch?v=vhwspfvI52k",
+      "description": "¿Qué son las Softskills y por qué es tan importante desarrollarlas para posicionarse en el mercado laboral? En este video de Alura Tips, Pri Stuani nos habla de las habilidades más buscadas por las empresas en sus profesionales y cómo las Soft Skills te ayudan en el día a día."
+    }
+  ]
+}

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import closeIcon from '../../assets/icons/close.svg'; // Ícono de cerrar el modal
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import api from "../../services/api";
+import closeIcon from "../../assets/icons/close.svg";
 
 // Contenedor del modal (fondo oscuro y centrado)
 const ModalOverlay = styled.div`
@@ -67,13 +68,13 @@ const Form = styled.form`
 const Input = styled.input`
   padding: 10px;
   font-size: 14px;
-  border: 2px solid ${({ error }) => (error ? '#ff0000' : '#0066ff')};
+  border: 2px solid ${({ error }) => (error ? "#ff0000" : "#0066ff")};
   border-radius: 4px;
   background-color: #001122;
   color: #fff;
 
   &:focus {
-    border-color: ${({ error }) => (error ? '#ff0000' : '#0099ff')};
+    border-color: ${({ error }) => (error ? "#ff0000" : "#0099ff")};
     outline: none;
   }
 `;
@@ -82,13 +83,13 @@ const Input = styled.input`
 const Select = styled.select`
   padding: 10px;
   font-size: 14px;
-  border: 2px solid ${({ error }) => (error ? '#ff0000' : '#0066ff')};
+  border: 2px solid ${({ error }) => (error ? "#ff0000" : "#0066ff")};
   border-radius: 4px;
   background-color: #001122;
   color: #fff;
 
   &:focus {
-    border-color: ${({ error }) => (error ? '#ff0000' : '#0099ff')};
+    border-color: ${({ error }) => (error ? "#ff0000" : "#0099ff")};
     outline: none;
   }
 `;
@@ -97,14 +98,14 @@ const Select = styled.select`
 const Textarea = styled.textarea`
   padding: 10px;
   font-size: 14px;
-  border: 2px solid ${({ error }) => (error ? '#ff0000' : '#0066ff')};
+  border: 2px solid ${({ error }) => (error ? "#ff0000" : "#0066ff")};
   border-radius: 4px;
   background-color: #001122;
   color: #fff;
   resize: none;
 
   &:focus {
-    border-color: ${({ error }) => (error ? '#ff0000' : '#0099ff')};
+    border-color: ${({ error }) => (error ? "#ff0000" : "#0099ff")};
     outline: none;
   }
 `;
@@ -133,42 +134,69 @@ const Button = styled.button`
   cursor: pointer;
   transition: all 0.3s ease;
 
-  background-color: ${({ primary }) => (primary ? '#0066ff' : 'transparent')};
-  color: ${({ primary }) => (primary ? '#fff' : '#0066ff')};
+  background-color: ${({ $primary }) => ($primary ? "#0066ff" : "transparent")};
+  color: ${({ $primary }) => ($primary ? "#fff" : "#0066ff")};
   border: 2px solid #0066ff;
 
   &:hover {
-    background-color: ${({ primary }) => (primary ? '#0050cc' : '#002244')};
+    background-color: ${({ $primary }) => ($primary ? "#0050cc" : "#002244")};
     color: #fff;
   }
 `;
 
-function EditModal({ isOpen, onClose, onSubmit }) {
-  const [errors, setErrors] = useState({});
+function EditModal({ isOpen, onClose, onSubmit, initialValues }) {
+  const [formData, setFormData] = useState({
+    id: "",
+    title: "",
+    category: "",
+    image: "",
+    video: "",
+    description: "",
+  });
 
-  if (!isOpen) return null;
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  // Actualiza el estado del formulario al abrir el modal
+  useEffect(() => {
+    if (initialValues) {
+      setFormData((prev) => ({
+        ...prev,
+        ...initialValues,
+        title: initialValues.title || "",
+        category: initialValues.category || "",
+        image: initialValues.image || "",
+        video: initialValues.video || "",
+        description: initialValues.description || "",
+      }));
+    }
+  }, [initialValues]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+    setLoading(true);
 
-    const newErrors = {};
+    try {
+     
+      if (!formData.id) {
+        throw new Error("El ID del video no está definido.");
+      }
 
-    if (!data.title) newErrors.title = 'El título es obligatorio.';
-    if (!data.category) newErrors.category = 'Seleccione una categoría.';
-    if (!data.image) newErrors.image = 'La URL de la imagen es obligatoria.';
-    if (!data.video) newErrors.video = 'La URL del video es obligatoria.';
-    if (!data.description) newErrors.description = 'La descripción es obligatoria.';
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-    } else {
-      setErrors({});
-      onSubmit(data); // Llama la función onSubmit con los datos del formulario
+      await api.put(`/videos/${formData.id}`, formData); // Solicitud PUT
+      onSubmit(formData); // Actualiza datos en Home
       onClose(); // Cierra el modal
+    } catch (error) {
+      console.error("Error al actualizar el video:", error);
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <ModalOverlay>
@@ -181,48 +209,60 @@ function EditModal({ isOpen, onClose, onSubmit }) {
           <Input
             type="text"
             name="title"
+            value={formData.title}
+            onChange={handleChange}
             placeholder="Título"
-            error={!!errors.title}
           />
-          {errors.title && <ErrorMessage>{errors.title}</ErrorMessage>}
-
-          <Select name="category" error={!!errors.category}>
+          <Select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+          >
             <option value="">Seleccionar Categoría</option>
             <option value="frontend">Frontend</option>
             <option value="backend">Backend</option>
             <option value="innovation">Innovación y Gestión</option>
           </Select>
-          {errors.category && <ErrorMessage>{errors.category}</ErrorMessage>}
-
           <Input
             type="text"
             name="image"
+            value={formData.image}
+            onChange={handleChange}
             placeholder="URL de la imagen"
-            error={!!errors.image}
           />
-          {errors.image && <ErrorMessage>{errors.image}</ErrorMessage>}
-
           <Input
             type="text"
             name="video"
+            value={formData.video}
+            onChange={handleChange}
             placeholder="URL del video"
-            error={!!errors.video}
           />
-          {errors.video && <ErrorMessage>{errors.video}</ErrorMessage>}
-
           <Textarea
             name="description"
+            value={formData.description}
+            onChange={handleChange}
             rows="3"
             placeholder="Descripción"
-            error={!!errors.description}
           />
-          {errors.description && <ErrorMessage>{errors.description}</ErrorMessage>}
-
           <ButtonContainer>
-            <Button primary type="submit">
-              Guardar
+            <Button $primary type="submit" disabled={loading}>
+              {loading ? "Guardando..." : "Guardar"}
             </Button>
-            <Button type="reset">Limpiar</Button>
+            <Button
+              type="reset"
+              onClick={() =>
+                setFormData({
+                  id: "",
+                  title: "",
+                  category: "",
+                  image: "",
+                  video: "",
+                  description: "",
+                })
+              }
+            >
+              Limpiar
+            </Button>
           </ButtonContainer>
         </Form>
       </ModalContainer>

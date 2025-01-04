@@ -21,19 +21,16 @@ const CardContainer = styled.div`
 `;
 
 function Home() {
-  const [videosByCategory, setVideosByCategory] = useState([]); // Datos organizados por categoría
+  const [videosByCategory, setVideosByCategory] = useState([]); 
   const [isModalOpen, setModalOpen] = useState(false); 
   const [editData, setEditData] = useState({}); 
 
-  // Realizar la solicitud GET para obtener los videos
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const response = await api.get('/videos'); // Solicitud GET a la API
+        const response = await api.get('/videos');
         const videos = response.data;
-        console.log('Videos obtenidos:', response.data);
 
-        // Organizar los videos por categoría
         const categorizedVideos = [
           {
             title: 'Frontend',
@@ -52,7 +49,7 @@ function Home() {
           },
         ];
 
-        setVideosByCategory(categorizedVideos); // Actualizar el estado con los videos organizados
+        setVideosByCategory(categorizedVideos);
       } catch (error) {
         console.error('Error al obtener los videos:', error);
       }
@@ -66,13 +63,17 @@ function Home() {
     setModalOpen(true); 
   };
 
-  const handleSubmit = (data) => {
-    console.log('Datos actualizados:', data);
-    setModalOpen(false);
-  };
-
-  const handleDelete = () => {
-    alert('Video borrado');
+  const handleSubmit = (updatedVideo) => {
+  
+    // Actualiza los datos locales después de guardar
+    setVideosByCategory((prevCategories) =>
+      prevCategories.map((category) => ({
+        ...category,
+        videos: category.videos.map((video) =>
+          video.id === updatedVideo.id ? updatedVideo : video
+        ),
+      }))
+    );
   };
 
   return (
@@ -82,24 +83,27 @@ function Home() {
         <div key={index}>
           <CategorySection title={category.title} color={category.color} />
           <CardContainer>
-            {category.videos.map((video, videoIndex) => (
-              <VideoCard
-                key={videoIndex}
-                title={video.title}
-                image={video.image}
-                categoryColor={category.color}
-                onDelete={() => handleDelete(video)}
-                onEdit={() => handleEdit(video)}
-              />
-            ))}
-          </CardContainer>
+  {category.videos.map((video, videoIndex) => {
+    
+    return (
+      <VideoCard
+        key={videoIndex}
+        title={video.title}
+        image={video.image} // Se pasa aquí
+        categoryColor={category.color}
+        onDelete={() => handleDelete(video)}
+        onEdit={() => handleEdit(video)}
+      />
+    );
+  })}
+</CardContainer>
         </div>
       ))}
       <EditModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)} 
         onSubmit={handleSubmit} 
-        initialValues={editData} 
+        initialValues={editData}
       />
     </MainContent>
   );

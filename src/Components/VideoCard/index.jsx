@@ -19,7 +19,8 @@ const CardContainer = styled.div`
 const VideoImage = styled.div`
   width: 100%;
   height: 170px;
-  background: ${({ image }) => `url(${image})`} no-repeat center center;
+  background: ${({ $image }) =>
+    $image ? `url(${$image})` : 'none'} no-repeat center center;
   background-size: cover;
 `;
 
@@ -69,6 +70,7 @@ const IconButton = styled.button`
 `;
 
 function VideoCard({ title, image, categoryColor, onDelete, onEdit }) {
+ 
   return (
     <CardContainer $borderColor={categoryColor}>
       <VideoImage $image={image} />
