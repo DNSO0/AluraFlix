@@ -13,6 +13,7 @@ const CardContainer = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 `;
 
 // Imagen del video
@@ -41,6 +42,7 @@ const ButtonContainer = styled.div`
   align-items: center;
   padding: 10px;
   background-color: #222;
+  margin-top: auto;
 `;
 
 // Botón estilizado
@@ -70,11 +72,33 @@ const IconButton = styled.button`
 `;
 
 function VideoCard({ title, image, categoryColor, onDelete, onEdit }) {
- 
   return (
     <CardContainer $borderColor={categoryColor}>
-      <VideoImage $image={image} />
-      <VideoTitle>{title}</VideoTitle>
+      <div>
+        <div
+          style={{
+            width: "100%",
+            height: "170px",
+            background: `url(${image}) no-repeat center center`,
+            backgroundSize: "cover",
+          }}
+        ></div>
+        <div
+          style={{
+            padding: "10px",
+            fontSize: "16px",
+            fontWeight: "bold",
+            color: "#fff",
+            textAlign: "center",
+            backgroundColor: "#111",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap", 
+          }}
+        >
+          {title}
+        </div>
+      </div>
       <ButtonContainer>
         <IconButton $hoverColor="#ff0000" onClick={onDelete}>
           <img src={deleteIcon} alt="Delete Icon" />

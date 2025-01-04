@@ -223,8 +223,8 @@ function NuevoVideoForm() {
             error={!!errors.categoria}
           >
             <option value="">Seleccione una categoría</option>
-            <option value="front-end">Front End</option>
-            <option value="back-end">Back End</option>
+            <option value="frontend">Front End</option>
+            <option value="backend">Back End</option>
             <option value="innovation">Innovación y Gestión</option>
           </Select>
           {errors.categoria && <ErrorMessage>{errors.categoria}</ErrorMessage>}

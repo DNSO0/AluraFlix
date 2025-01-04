@@ -2,7 +2,7 @@
   "videos": [
     {
       "id": "1",
-      "title": "FrontEnd???",
+      "title": "FrontEnd vs Backend",
       "category": "frontend",
       "image": "https://i.ytimg.com/vi/QjOWz9avkg8/hq720.jpg",
       "video": "https://www.youtube.com/results?search_query=alura+latam+frontend",
@@ -31,6 +31,22 @@
       "image": "https://i.ytimg.com/vi/YhR7Zp8NUzE/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLApSY-UYiv7541vDw1U-p_iqiq-VA",
       "video": "https://www.youtube.com/watch?v=YhR7Zp8NUzE",
       "description": "Seguro que ya escuchaste hablar sobre las Soft Skills, pero ¿sabes cuáles son las 7 más buscadas por las empresas? Quédate en este video con nosotros que vamos a explicarte la importancia de estas habilidades y porque son tan requeridas en el mercado laboral."
+    },
+    {
+      "id": "2fd0",
+      "title": "Cuándo usar let, var y const?",
+      "category": "frontend",
+      "image": "https://i.ytimg.com/vi/PztCEdIJITY/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLBbji3kKWxV2L4kTNj7sme6ChFt8g",
+      "video": "https://www.youtube.com/watch?v=PztCEdIJITY&t=302s",
+      "description": "¿A veces cuando estás programando sientes dificuldades en saber en qué momento utilizar let, var o const para declarar una variable? En este video te sacamos estas dudas, además de explicarte lo que es escopo global y local en JavaScript."
+    },
+    {
+      "id": "9db6",
+      "title": "Simplificando tu código en Java: Conoce los enum",
+      "category": "backend",
+      "image": "https://i.ytimg.com/vi/EoPvlE85XAQ/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLD80rSRC-pV7GFZ7LorycqSeDY3xA",
+      "video": "https://www.youtube.com/watch?v=EoPvlE85XAQ",
+      "description": "¿Escribir muchas variables del tipo constantes en Java te parece un proceso tedioso y que genera muchas líneas de código? \nEn este Alura+ la instructora Génesys Rondón nos enseña a simplificar esta tarea usando un tipo de dato especial llamado enum."
     }
   ]
 }
