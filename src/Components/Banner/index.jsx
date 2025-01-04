@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import bannerImage from './bannerImg.jpg';
+import bannerImage from '../../assets/images/bannerImg.jpg';
 
 // Contenedor principal del banner
 const BannerContainer = styled.div`
