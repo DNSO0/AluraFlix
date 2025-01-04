@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'; // Importar styled-components
-import NuevoVideoForm from '../Components/NuevoVideo'; // Componente del formulario
+import NuevoVideoForm from '../Components/NuevoVideoForm'; // Componente del formulario
 
 // Contenedor principal estilizado
 const MainContent = styled.main`

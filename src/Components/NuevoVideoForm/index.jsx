@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import api from "../../services/api"; 
 
 // Contenedor principal del formulario
 const FormContainer = styled.div`
@@ -137,43 +138,63 @@ const Button = styled.button`
   }
 `;
 
-function NuevoVideo() {
+function NuevoVideoForm() {
   const [formData, setFormData] = useState({
-    titulo: '',
-    categoria: '',
-    imagen: '',
-    video: '',
-    descripcion: '',
+    titulo: "",
+    categoria: "",
+    imagen: "",
+    video: "",
+    descripcion: "",
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false); // Estado para manejar la solicitud
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: '' }); // Limpia errores al escribir
+    setErrors({ ...errors, [name]: "" }); // Limpia errores al escribir
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
 
-    if (!formData.titulo) newErrors.titulo = 'El título es obligatorio';
-    if (!formData.categoria) newErrors.categoria = 'Seleccione una categoría';
-    if (!formData.imagen) newErrors.imagen = 'El enlace de la imagen es obligatorio';
-    if (!formData.video) newErrors.video = 'El enlace del video es obligatorio';
+    // Validación de los campos
+    if (!formData.titulo) newErrors.titulo = "El título es obligatorio";
+    if (!formData.categoria) newErrors.categoria = "Seleccione una categoría";
+    if (!formData.imagen) newErrors.imagen = "El enlace de la imagen es obligatorio";
+    if (!formData.video) newErrors.video = "El enlace del video es obligatorio";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      alert('Formulario enviado');
-      setFormData({
-        titulo: '',
-        categoria: '',
-        imagen: '',
-        video: '',
-        descripcion: '',
-      });
+      setLoading(true); // Muestra el estado de carga
+      try {
+        // Realiza la solicitud POST
+        await api.post("/videos", {
+          title: formData.titulo,
+          category: formData.categoria,
+          image: formData.imagen,
+          video: formData.video,
+          description: formData.descripcion,
+        });
+        alert("¡Video creado con éxito!");
+
+        // Limpia el formulario después de guardar
+        setFormData({
+          titulo: "",
+          categoria: "",
+          imagen: "",
+          video: "",
+          descripcion: "",
+        });
+      } catch (error) {
+        console.error("Error al crear el video:", error);
+        alert("Hubo un error al crear el video.");
+      } finally {
+        setLoading(false); // Termina el estado de carga
+      }
     }
   };
 
@@ -240,10 +261,21 @@ function NuevoVideo() {
           />
         </FieldContainer>
         <ButtonContainer>
-          <Button primary type="submit">
-            Guardar
+          <Button primary type="submit" disabled={loading}>
+            {loading ? "Guardando..." : "Guardar"}
           </Button>
-          <Button type="reset" onClick={() => setFormData({ titulo: '', categoria: '', imagen: '', video: '', descripcion: '' })}>
+          <Button
+            type="reset"
+            onClick={() =>
+              setFormData({
+                titulo: "",
+                categoria: "",
+                imagen: "",
+                video: "",
+                descripcion: "",
+              })
+            }
+          >
             Limpiar
           </Button>
         </ButtonContainer>
@@ -252,4 +284,4 @@ function NuevoVideo() {
   );
 }
 
-export default NuevoVideo;
+export default NuevoVideoForm;
