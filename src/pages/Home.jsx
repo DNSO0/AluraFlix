@@ -22,17 +22,16 @@ const CardContainer = styled.div`
 
 function Home() {
   const [videosByCategory, setVideosByCategory] = useState([]);
+  const [latestVideo, setLatestVideo] = useState(null); // Estado para el último video
   const [isModalOpen, setModalOpen] = useState(false);
   const [editData, setEditData] = useState({});
 
-  // Cargar los videos al montar el componente
   useEffect(() => {
     const fetchVideos = async () => {
       try {
         const response = await api.get("/videos");
         const videos = response.data;
 
-        // Organizar videos por categoría
         const categorizedVideos = [
           {
             title: "Frontend",
@@ -51,6 +50,19 @@ function Home() {
           },
         ];
 
+        // Determinar el último video añadido
+        if (videos.length > 0) {
+          const lastVideo = videos[videos.length - 1];
+          const categoryData = categorizedVideos.find(
+            (category) => category.title.toLowerCase() === lastVideo.category
+          );
+
+          setLatestVideo({
+            ...lastVideo,
+            categoryColor: categoryData ? categoryData.color : "#ffffff", // Agrega color dinámico
+          });
+        }
+
         setVideosByCategory(categorizedVideos);
       } catch (error) {
         console.error("Error al obtener los videos:", error);
@@ -60,13 +72,35 @@ function Home() {
     fetchVideos();
   }, []);
 
-  // Manejar la edición de un video
+  const handleVideoAdded = (newVideo) => {
+    const categoryData = videosByCategory.find(
+      (category) => category.title.toLowerCase() === newVideo.category
+    );
+
+    const videoWithColor = {
+      ...newVideo,
+      categoryColor: categoryData ? categoryData.color : "#ffffff", // Agrega color dinámico
+    };
+
+    setLatestVideo(videoWithColor); // Actualiza el último video
+
+    // Actualizar videos por categoría
+    setVideosByCategory((prevCategories) =>
+      prevCategories.map((category) => ({
+        ...category,
+        videos:
+          category.title.toLowerCase() === newVideo.category
+            ? [...category.videos, videoWithColor]
+            : category.videos,
+      }))
+    );
+  };
+
   const handleEdit = (video) => {
     setEditData(video);
     setModalOpen(true);
   };
 
-  // Guardar los cambios realizados en el modal
   const handleSubmit = (updatedVideo) => {
     setVideosByCategory((prevCategories) =>
       prevCategories.map((category) => ({
@@ -76,13 +110,12 @@ function Home() {
         ),
       }))
     );
-    setModalOpen(false); // Cerrar el modal
+    setModalOpen(false);
   };
 
-  // Manejar la eliminación de un video
   const handleDelete = async (video) => {
     try {
-      await api.delete(`/videos/${video.id}`); // Realizar la solicitud DELETE
+      await api.delete(`/videos/${video.id}`);
       setVideosByCategory((prevCategories) =>
         prevCategories.map((category) => ({
           ...category,
@@ -98,7 +131,7 @@ function Home() {
 
   return (
     <MainContent>
-      <Banner />
+      <Banner latestVideo={latestVideo} /> {/* Pasar el último video */}
       {videosByCategory.map((category, index) => (
         <div key={index}>
           <CategorySection title={category.title} color={category.color} />
@@ -109,8 +142,8 @@ function Home() {
                 title={video.title}
                 image={video.image}
                 categoryColor={category.color}
-                onDelete={() => handleDelete(video)} // Llama a la función de eliminación
-                onEdit={() => handleEdit(video)} // Llama a la función de edición
+                onDelete={() => handleDelete(video)}
+                onEdit={() => handleEdit(video)}
               />
             ))}
           </CardContainer>

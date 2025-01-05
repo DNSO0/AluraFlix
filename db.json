@@ -47,6 +47,14 @@
       "image": "https://i.ytimg.com/vi/rpvrLaBQwgg/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLBkb-PJrLWrffCvsevbaS6oMxcyhQ",
       "video": "https://www.youtube.com/watch?v=rpvrLaBQwgg",
       "description": "¿Estás empezando tus estudios de Programación? ¿Te interesa todo lo que es la creación de Páginas Web Desarrollo de Softwares? ¿O estás pensando en cambiar de carrera y entrar a la maravillosa area de tecnología?\n\nEn este video, Jeanmarie Quijada, instructora Front End en Alura Latam te explica qué hace el equipo de Front End."
+    },
+    {
+      "id": "358c",
+      "title": "Qué Significa Pensar Como Programador?",
+      "category": "frontend",
+      "image": "https://i.ytimg.com/vi/ov7vA5HFe6w/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLDjMMTePZFuMnq68UlkXC91mLQ4RQ",
+      "video": "https://www.youtube.com/watch?v=ov7vA5HFe6w",
+      "description": "En este video Christian Velasco nos habla de las principales características de un Programador."
     }
   ]
 }

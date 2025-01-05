@@ -138,7 +138,7 @@ const Button = styled.button`
   }
 `;
 
-function NuevoVideoForm() {
+function NuevoVideoForm({ onVideoAdded }) {
   const [formData, setFormData] = useState({
     titulo: "",
     categoria: "",
@@ -158,29 +158,34 @@ function NuevoVideoForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     const newErrors = {};
-
-    // Validación de los campos
     if (!formData.titulo) newErrors.titulo = "El título es obligatorio";
     if (!formData.categoria) newErrors.categoria = "Seleccione una categoría";
     if (!formData.imagen) newErrors.imagen = "El enlace de la imagen es obligatorio";
     if (!formData.video) newErrors.video = "El enlace del video es obligatorio";
-
+  
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      setLoading(true); // Muestra el estado de carga
+      setLoading(true); // Inicia el estado de carga
       try {
         // Realiza la solicitud POST
-        await api.post("/videos", {
+        const response = await api.post("/videos", {
           title: formData.titulo,
           category: formData.categoria,
           image: formData.imagen,
           video: formData.video,
           description: formData.descripcion,
         });
+  
         alert("¡Video creado con éxito!");
-
+  
+        // Notifica al componente padre que se añadió un nuevo video
+        if (onVideoAdded) {
+          onVideoAdded(response.data);
+        }
+  
         // Limpia el formulario después de guardar
         setFormData({
           titulo: "",
@@ -197,6 +202,7 @@ function NuevoVideoForm() {
       }
     }
   };
+  
 
   return (
     <FormContainer>
