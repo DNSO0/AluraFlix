@@ -221,7 +221,7 @@ function EditModal({ isOpen, onClose, onSubmit, initialValues }) {
             <option value="">Seleccionar Categoría</option>
             <option value="frontend">Frontend</option>
             <option value="backend">Backend</option>
-            <option value="innovation">Innovación y Gestión</option>
+            <option value="Innovación y Gestión">Innovación y Gestión</option>
           </Select>
           <Input
             type="text"

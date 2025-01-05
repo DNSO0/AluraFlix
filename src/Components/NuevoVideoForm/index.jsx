@@ -231,7 +231,7 @@ function NuevoVideoForm({ onVideoAdded }) {
             <option value="">Seleccione una categoría</option>
             <option value="frontend">Front End</option>
             <option value="backend">Back End</option>
-            <option value="innovation">Innovación y Gestión</option>
+            <option value="Innovación y Gestión">Innovación y Gestión</option>
           </Select>
           {errors.categoria && <ErrorMessage>{errors.categoria}</ErrorMessage>}
         </FieldContainer>

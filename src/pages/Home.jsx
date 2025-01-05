@@ -22,9 +22,11 @@ const CardContainer = styled.div`
 
 function Home() {
   const [videosByCategory, setVideosByCategory] = useState([]);
-  const [latestVideo, setLatestVideo] = useState(null); // Estado para el último video
+  const [latestVideo, setLatestVideo] = useState(null); 
   const [isModalOpen, setModalOpen] = useState(false);
   const [editData, setEditData] = useState({});
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
+
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -46,7 +48,7 @@ function Home() {
           {
             title: "Innovación y Gestión",
             color: "#ff9900",
-            videos: videos.filter((video) => video.category === "innovation"),
+            videos: videos.filter((video) => video.category === "Innovación y Gestión"),
           },
         ];
 
@@ -54,7 +56,7 @@ function Home() {
         if (videos.length > 0) {
           const lastVideo = videos[videos.length - 1];
           const categoryData = categorizedVideos.find(
-            (category) => category.title.toLowerCase() === lastVideo.category
+            (category) => category.title.toLowerCase() === lastVideo.category.toLowerCase()
           );
 
           setLatestVideo({
@@ -70,7 +72,7 @@ function Home() {
     };
 
     fetchVideos();
-  }, []);
+  }, [refreshTrigger]);
 
   const handleVideoAdded = (newVideo) => {
     const categoryData = videosByCategory.find(
@@ -110,28 +112,55 @@ function Home() {
         ),
       }))
     );
+    setLatestVideo((prevLatest) =>
+      prevLatest?.id === updatedVideo.id ? updatedVideo : prevLatest
+    );
+    setRefreshTrigger((prev) => !prev);
     setModalOpen(false);
   };
 
   const handleDelete = async (video) => {
     try {
       await api.delete(`/videos/${video.id}`);
-      setVideosByCategory((prevCategories) =>
-        prevCategories.map((category) => ({
-          ...category,
-          videos: category.videos.filter((v) => v.id !== video.id),
-        }))
-      );
+      setRefreshTrigger((prev) => !prev);
+     
+      const updatedCategories = videosByCategory.map((category) => ({
+        ...category,
+        videos: category.videos.filter((v) => v.id !== video.id),
+      }));
+  
+      setVideosByCategory(updatedCategories);
+  
+      // Obtener todos los videos restantes
+      const allVideos = updatedCategories.flatMap((category) => category.videos);
+  
+      if (allVideos.length > 0) {
+        // Asignar el nuevo último video si quedan videos
+        const newLastVideo = allVideos[allVideos.length - 1];
+        const categoryData = categorizedVideos.find(
+          (category) => category.title.toLowerCase() === newLastVideo.category.toLowerCase()
+        );
+  
+        setLatestVideo({
+          ...newLastVideo,
+          categoryColor: categoryData ? categoryData.color : "#ffffff",
+        });
+      } else {
+        // Si no quedan videos, limpiar el banner
+        setLatestVideo(null);
+      }
+  
       alert("¡Video eliminado con éxito!");
     } catch (error) {
       console.error("Error al eliminar el video:", error);
       alert("Hubo un error al eliminar el video.");
     }
   };
+  
 
   return (
     <MainContent>
-      <Banner latestVideo={latestVideo} /> {/* Pasar el último video */}
+      <Banner latestVideo={latestVideo} /> 
       {videosByCategory.map((category, index) => (
         <div key={index}>
           <CategorySection title={category.title} color={category.color} />
