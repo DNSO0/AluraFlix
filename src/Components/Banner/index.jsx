@@ -15,6 +15,15 @@ const BannerContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column; /* Mantén en columna si realmente lo necesitas */
+    align-items: center;
+    justify-content: center;
+    height: auto; /* Ajusta la altura según el contenido */
+    padding: 20px 10px;
+    margin-top: 30px;
+  }
 `;
 
 // Capa de opacidad sobre la imagen
@@ -111,7 +120,7 @@ const Description = styled.p`
   }
 
   @media (max-width: 768px) {
-    font-size: 12px; /* Ajusta para móvil */
+        display: none;
   }
 `;
 
@@ -134,8 +143,7 @@ const ImageContainer = styled.div`
 
   @media (max-width: 768px) {
     width: 300px; /* Ajusta para móvil */
-    height: 180px;
-    margin-top: 20px;
+    height: 180px;    
   }
 `;
 

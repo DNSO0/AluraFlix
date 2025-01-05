@@ -1,7 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import Logo from '../../assets/images/logo.svg';
+import React from "react";
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+import { useMediaQuery } from "react-responsive"; // Importar useMediaQuery
+import Logo from "../../assets/images/logo.svg";
+import MobileNav from "../MobileNav"; // Importar el componente MobileNav
 
 // Estilo del contenedor del Header
 const HeaderContainer = styled.header`
@@ -17,17 +19,29 @@ const HeaderContainer = styled.header`
   align-items: center; /* Centra verticalmente los elementos */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
   border-bottom: 2px solid #0066ff;
+
+  @media (max-width: 768px) {
+    justify-content: center; /* Centrar el logo en móvil */
+  }
 `;
 
 // Estilo del logo
 const LogoImage = styled.img`
   height: 40px;
+
+  @media (max-width: 768px) {
+    height: 30px;
+  }
 `;
 
 // Contenedor de navegación
 const NavContainer = styled.nav`
   display: flex;
-  gap: 20px; /* Espaciado entre los botones */
+  gap: 20px;
+
+  @media (max-width: 768px) {
+    display: none; /* Ocultar navegación de escritorio en móvil */
+  }
 `;
 
 // Botón de navegación
@@ -57,17 +71,21 @@ const NavButton = styled(NavLink)`
 `;
 
 function Header() {
+  // Detectar si el dispositivo es móvil
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+
   return (
     <HeaderContainer>
       <LogoImage src={Logo} alt="AluraFlix Logo" />
-      <NavContainer>
-        <NavButton to="/" >
-          Home
-        </NavButton>
-        <NavButton to="/nuevo-video">
-          Nuevo Video
-        </NavButton>
-      </NavContainer>
+      {/* Mostrar navegación según el tamaño de la pantalla */}
+      {isMobile ? (
+        <MobileNav /> // Mostrar navegación móvil
+      ) : (
+        <NavContainer>
+          <NavButton to="/">Home</NavButton>
+          <NavButton to="/nuevo-video">Nuevo Video</NavButton>
+        </NavContainer>
+      )}
     </HeaderContainer>
   );
 }
