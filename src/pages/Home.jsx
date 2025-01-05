@@ -189,9 +189,9 @@ function Home() {
         <div key={index}>
           <CategorySection title={category.title} color={category.color} />
           <CardContainer>
-            {category.videos.map((video, videoIndex) => (
+            {category.videos.map((video) => (
               <VideoCard
-                key={videoIndex}
+                key={video.id}
                 title={video.title}
                 image={video.image}
                 categoryColor={category.color}
