@@ -14,7 +14,13 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media (max-width: 1024px) {
+    width: 260px; 
+    flex-shrink: 0;
+  }
 `;
+
 
 // Imagen del video
 const VideoImage = styled.div`
@@ -24,7 +30,12 @@ const VideoImage = styled.div`
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+
+  @media (max-width: 1024px) {
+    height: 150px; /* Ajusta la altura en tablet */
+  }
 `;
+
 
 // Contenedor del título
 const VideoTitle = styled.div`
@@ -44,6 +55,10 @@ const ButtonContainer = styled.div`
   padding: 10px;
   background-color: #222;
   margin-top: auto;
+
+  @media (max-width: 1024px) {
+    padding: 8px; /* Reduce el padding para tablet */
+  }
 `;
 
 // Botón estilizado

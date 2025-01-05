@@ -7,18 +7,42 @@ import EditModal from "../Components/EditModal";
 import api from "../services/api";
 
 const MainContent = styled.main`
-  padding: 20px;
-  background-color: #121212;
-  padding-top: 70px;
-  min-height: calc(100vh - 70px);
+padding: 20px;
+background-color: #121212;
+padding-top: 70px;
+min-height: calc(100vh - 70px);
+
+@media (max-width: 1024px) {
+  padding: 15px; /* Reduce el padding en tablet */
+}
 `;
+
 
 const CardContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Mantiene el comportamiento de desktop */
   gap: 20px;
   margin-top: 20px;
+
+  @media (max-width: 1024px) {
+    flex-wrap: nowrap; /* Desactiva el wrap en tablet */
+    overflow-x: auto; /* Activa el desplazamiento horizontal */
+    padding-bottom: 10px; /* Espacio para la barra de scroll */
+
+    /* Estilo de la barra de scroll */
+    &::-webkit-scrollbar {
+      height: 8px; /* Altura de la barra de scroll */
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #0066ff; /* Color del scroll */
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: #222; /* Fondo del scroll */
+    }
+  }
 `;
+
 
 function Home() {
   const [videosByCategory, setVideosByCategory] = useState([]);
